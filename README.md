@@ -75,49 +75,148 @@ Latent analyzes **posts and comments from r/Singapore** to surface public opinio
 
 ---
 
-## 📂 Project Structure
+## 📂 Repository Structure Map
 
 ```
 Latent/
-├── README.md                              # This file
-├── TODO.md                                # Task tracker
-├── .gitignore                             # Git exclusions
-├── requirements.txt                       # Python dependencies (full pipeline)
 │
-├── data_scrape/                           # Reddit data collection scripts
-│   ├── scrape.py                          #   Historical scraping (Arctic Shift API)
-│   └── scrape_incremental.py              #   Incremental scraping (PRAW / Reddit API)
+│── ─── Root ───────────────────────────────────────────────────────────
 │
-├── notebooks/                             # Pipeline notebooks
-│   ├── local/                             #   Jupyter versions (local GPU)
+├── README.md                                 # Project overview & guide (this file)
+├── AGENTS.md                                 # AI agent rules & coding conventions
+├── TODO.md                                   # Task tracker with checkboxes
+├── LICENSE                                   # MIT License
+├── .gitignore                                # Git exclusions (data, models, caches)
+├── requirements.txt                          # Python deps for the full pipeline
+├── emotion_inference.py                      # Standalone emotion classification CLI
+│
+│── ─── Data Collection ────────────────────────────────────────────────
+│
+├── data_scrape/                              # Reddit data collection
+│   ├── scrape.py                             #   Historical bulk scrape (Arctic Shift API)
+│   └── scrape_incremental.py                 #   Incremental live scrape (PRAW / Reddit API)
+│
+│── ─── Pipeline Notebooks ─────────────────────────────────────────────
+│
+├── notebooks/                                # Organized pipeline notebooks
+│   ├── README.md                             #   Guide: local vs Colab usage
+│   ├── local/                                #   🖥️  Local Jupyter (your GPU)
+│   │   ├── Stage_0_Introduction.ipynb
 │   │   ├── Stage_1_Data_Collection.ipynb
 │   │   ├── Stage_2_POS_NER_Tagging.ipynb
-│   │   └── ...
-│   └── colab/                             #   Google Colab versions (free GPU)
+│   │   ├── Stage_3_Singlish_Normalisation.ipynb
+│   │   ├── Stage_4_Singlish_to_English.ipynb
+│   │   ├── Stage_5_Text_Normalisation.ipynb
+│   │   ├── Stage_6_Vector_Space_Model.ipynb
+│   │   ├── Stage_7_Sentiment_Analysis.ipynb
+│   │   ├── Stage_8_Clustering.ipynb
+│   │   ├── Stage_9_Document_Search.ipynb
+│   │   └── Appendix_1_Sentiment_Benchmark.ipynb
+│   └── colab/                                #   ☁️  Google Colab (free T4 GPU)
+│       ├── Stage_0_Introduction.ipynb        #     ↳ Each has Colab badge + auto-setup
 │       ├── Stage_1_Data_Collection.ipynb
 │       ├── Stage_2_POS_NER_Tagging.ipynb
-│       └── ...
+│       ├── Stage_3_Singlish_Normalisation.ipynb
+│       ├── Stage_4_Singlish_to_English.ipynb
+│       ├── Stage_5_Text_Normalisation.ipynb
+│       ├── Stage_6_Vector_Space_Model.ipynb
+│       ├── Stage_7_Sentiment_Analysis.ipynb
+│       ├── Stage_8_Clustering.ipynb
+│       ├── Stage_9_Document_Search.ipynb
+│       └── Appendix_1_Sentiment_Benchmark.ipynb
 │
-├── utilities/                             # Shared helper modules
-│   ├── pp_class.py                        #   RedditPreprocessor class
-│   ├── singlish_dictionary.json           #   Singlish → English mappings
-│   ├── singlish_regex_to_text.txt         #   Singlish regex patterns
-│   └── slang_dictionary.csv               #   Internet slang expansions
+│── ─── Original Notebooks (Legacy) ───────────────────────────────────
 │
-├── dashboard-ui/                          # Full-stack analytics dashboard
-│   ├── app.py                             #   Flask API backend
-│   ├── dashboard/                         #   React + Vite frontend
-│   ├── data/                              #   Processed CSV data (gitignored)
-│   ├── models/                            #   Trained ML models (gitignored)
-│   └── requirements.txt                   #   Backend Python dependencies
+├── Stage_0_Introduction.ipynb                # Original CS5246 notebooks (kept for reference)
+├── Stage_1_Data_Collection_and_Data_Cleaning.ipynb
+├── Stage_2_POS_and_NER_Tagging.ipynb
+├── Stage_3_Singlish_Normalisation.ipynb
+├── Stage_4_Singlish_to_English_Conversion.ipynb
+├── Stage_5_Common_Normalisation.ipynb
+├── Stage_6_Vector_Space_Model_and_Inverted_Index.ipynb
+├── Stage_8_Clustering_and_Visualization.ipynb
+├── Stage_9_Document_Search.ipynb
+├── Step_Appendix_1_Sentiment Labelling (Benchmark).ipynb
 │
-├── tech/                                  # Tech stack documentation
-│   └── STACK.md                           #   Complete technology reference
+│── ─── Utilities & Dictionaries ───────────────────────────────────────
 │
-└── intermediate_data/                     # Pipeline outputs (gitignored)
-    ├── PostVault.csv                      #   Generated by Stage 1
-    ├── CommentVault.csv                   #   Generated by Stage 1
-    └── ...                                #   Various intermediate CSVs
+├── utilities/                                # Shared helper modules & dictionaries
+│   ├── pp_class.py                           #   RedditPreprocessor class (cleaning pipeline)
+│   ├── singlish_dictionary.json              #   Singlish → English word mappings
+│   ├── singlish_regex_to_text.txt            #   Singlish regex normalization patterns
+│   └── slang_dictionary.csv                  #   Internet slang expansion table
+│
+│── ─── Analytics Dashboard ────────────────────────────────────────────
+│
+├── dashboard-ui/                             # Full-stack analytics dashboard
+│   ├── app.py                                #   Flask API backend (892 lines, 20 endpoints)
+│   ├── Makefile                              #   Dev commands (make install/dev/build)
+│   ├── pyproject.toml                        #   Python project metadata (uv)
+│   ├── requirements.txt                      #   Backend Python dependencies
+│   ├── documentation.md                      #   Detailed backend + frontend docs
+│   ├── README.md                             #   Dashboard quick-start guide
+│   │
+│   ├── data/                                 #   📊 Processed datasets (gitignored)
+│   │   ├── PostVault.csv                     #     Main dataset (~6k posts)
+│   │   ├── stopword_lemmatized_posts_0.csv   #     Preprocessed posts
+│   │   └── ..._labels_w_emot.csv             #     Posts + emotion predictions
+│   │
+│   ├── models/                               #   🤖 Trained ML models (gitignored)
+│   │   ├── bm25_fulltext_model.joblib        #     BM25 index (full text)
+│   │   ├── bm25_titles_model.joblib          #     BM25 index (titles)
+│   │   └── tfidf_posts_vectorizer.joblib     #     Fitted TF-IDF vectorizer
+│   │
+│   └── dashboard/                            #   ⚛️  React + Vite frontend
+│       ├── index.html                        #     HTML entry point
+│       ├── package.json                      #     NPM dependencies
+│       ├── vite.config.js                    #     Vite config (API proxy → :5000)
+│       ├── public/                           #     Static assets (favicon, icons)
+│       └── src/
+│           ├── main.jsx                      #     React entry point
+│           ├── App.jsx                       #     Route definitions
+│           ├── theme.js                      #     Chakra UI theme config
+│           ├── index.css                     #     Global styles
+│           ├── components/
+│           │   ├── Layout.jsx                #       Page wrapper + gradient bg
+│           │   ├── Navbar.jsx                #       Sticky navigation bar
+│           │   └── WordCloud.jsx             #       d3-cloud word cloud
+│           ├── data/
+│           │   ├── api.jsx                   #       DataProvider context + useData()
+│           │   └── mockData.js               #       Fallback data for offline dev
+│           └── pages/
+│               ├── TopicOverview.jsx          #       Main dashboard (KPIs, charts)
+│               ├── TopicDeepDive.jsx          #       Single-topic analysis
+│               ├── Timeline.jsx              #       Topic volume over time
+│               ├── EmotionAnalysis.jsx        #       7-class emotion breakdown
+│               ├── DocumentSearch.jsx         #       BM25 / TF-IDF search UI
+│               ├── DataInsights.jsx           #       Heatmaps, distributions
+│               ├── BM25DeepDive.jsx           #       BM25 algorithm explainer
+│               ├── MethodComparison.jsx       #       BM25 vs TF-IDF comparison
+│               └── Recommendations.jsx        #       Post recommendations
+│
+│── ─── Sentiment Plots (Legacy) ───────────────────────────────────────
+│
+├── sentiment_plots/                          # Standalone sentiment visualization scripts
+│   ├── emotion_dashboard.py                  #   Streamlit emotion dashboard
+│   ├── plot_emotion_summary.py               #   Static plot generation
+│   └── emotion_plots/                        #   Generated PNGs (gitignored)
+│
+│── ─── Scripts & Documentation ────────────────────────────────────────
+│
+├── scripts/                                  # Dev & maintenance scripts
+│   └── convert_notebooks.py                  #   Convert Stage notebooks → local + Colab
+│
+├── tech/                                     # Tech stack documentation
+│   └── STACK.md                              #   Complete technology reference (30+ tools)
+│
+│── ─── Generated at Runtime (gitignored) ──────────────────────────────
+│
+└── intermediate_data/                        # Pipeline outputs (created when you run stages)
+    ├── PostVault.csv                         #   Generated by Stage 1
+    ├── CommentVault.csv                      #   Generated by Stage 1
+    ├── *_normalized.csv                      #   Generated by Stages 3–5
+    ├── *.npz / *.npy / *.joblib             #   Generated by Stage 6
+    └── *_labels.csv                          #   Generated by Stage 7
 ```
 
 ---
