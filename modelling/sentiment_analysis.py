@@ -16,9 +16,13 @@ from typing import Sequence
 
 import numpy as np
 import pandas as pd
+import importlib
+
 try:
-    import torch
-    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+    torch = importlib.import_module("torch")
+    transformers = importlib.import_module("transformers")
+    AutoModelForSequenceClassification = transformers.AutoModelForSequenceClassification
+    AutoTokenizer = transformers.AutoTokenizer
 except ImportError:
     torch = None
     AutoModelForSequenceClassification = None

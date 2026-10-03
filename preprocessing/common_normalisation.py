@@ -14,13 +14,15 @@ import logging
 from pathlib import Path
 import re
 
+import importlib
+
 try:
-    import contractions
+    contractions = importlib.import_module("contractions")
 except ImportError:
     contractions = None
 
 try:
-    import emoji
+    emoji = importlib.import_module("emoji")
 except ImportError:
     emoji = None
 
