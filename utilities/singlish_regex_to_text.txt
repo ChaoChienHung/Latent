@@ -1,0 +1,169 @@
+\b(lah{2,}|laah|lar)\b,lah
+\b(loh{2,}|lorr|lor|luh|lo)\b,loh
+\b(leh{2,}|lei|ler)\b,leh
+\b(meh{2,}|meh)\b,meh
+\b(hor{2,}|hoh|ho{2,})\b,hor
+\b(wat)\b,wat
+\b(siah|siah)\b,sial
+\b(ah{2,}|a{3,})\b,ah
+\b(eh{2,}|ey{2,})\b,eh
+\b(huh{2,})\b,huh
+\b(lagi{2,})\b,lagi
+\b(si\s?bei|si\s?beh|sibeh|sibei)\b,sibeh
+\b(damn{2,}|dem+)\b,damn
+\b(chee\s?bye+|cheebai+|cheebye+|chibai+|cibai{2,}|jibai+|cb+)\b,cibai
+\b(liao{2,}|liow|le)\b,liao
+\b(cannot|canot|cann?ot)\b,cannot
+\b(anot\?|anot+)\b,or not
+\b(wah+|wha|wa)\b,wah
+\b(sia+)\b,sia
+\b(kan\s?ni\s?nah|kan\s?ni\s?na|kaninah|kanina{2,}|knn)\b,kanina
+\b(nah{2,}|na{2,})\b,nah
+\b(boleh{2,})\b,boleh
+\b(issit+|izzit+|isit{2,})\b,isit
+\b(mah{2,}|ma)\b,mah
+\b(bah{2,}|ba)\b,bah
+\b(chey+|cheh{2,})\b,cheh
+\b(aiyo(yo)*|aiyo+|haiyoh|aiyoh|aiyah|aiyar|ai\s?yo|haiyo|haiya{2,}|aiyo|aiya)\b,haiya
+\b(haiz{2,}|haish+|sighz+|kaiez+|hais+|sigh+)\b,haiz
+\b(wah\s?lao|wah\s?lau|wa\s?lao|watlao|walao{2,}|walau|wa\s?lan)\b,walao
+\b(wah\s?piang+)\b,wah piang
+\b(ala\s?mak|alamak{2,}|alemak|alama)\b,alamak
+\b(sian\s?sian|siannz|sianz|siann|sienz{2,}|sian|sien|xian)\b,sienz
+\b(adui{2,}|aduh+)\b,adui
+\b(aisheh{2,}|aiseh+)\b,aisheh
+\b(ham\s?sap)\b,hamsap
+\b(ham\s?pa\s?lang)\b,hampalang
+\b(hao\s?lian)\b,haolian
+\b(pai\s?seh+|pai\s?sei+|paiseh{2,}|paisay+|paisei+|paise+)\b,paiseh
+\b(kan\s?chiong|gan\s?chiong|kanchiong|ganchiong)\b,ganjiong
+\b(shiok\s?shiok|shiokk|shuang|shiok{2,}|syiok|siak)\b,shiok
+\b(chiong{2,})\b,chiong
+\b(hiong{2,}|heong)\b,hiong
+\b(like\s?liddat|like\s?dat|like\s?tat|like\s?tt|liddat|liddis|lidat|lidis|lk\s?tt)\b,like that
+\b(toking|tokin|tawk)\b,talk
+\b(gals|ger|gal|gel)\b,girl
+\b(bo\s?invite|bo\s?call|bo\sjio+|bojio{2,})\b,bojio
+\b(steady{2,}|stedi|stedy)\b,steady
+\b(tahan{2,}|ta\s?han)\b,tahan
+\b(kia\s?su+|kiasu{2,}|kaysu+)\b,kiasu
+\b(jia\s?lart+|jia\slat{2,}|jia\s?lak+|jialat{2,}|jialak+)\b,jialat
+\b(kay\s?poh|kaypok|kepo{2,}|kaypoh)\b,kepo
+\b(ponning|ponned|pon)\b,ponteng
+\b(boh\s?bian|bo\s?bian|bobian{2,})\b,bobian
+\b(jio\-ed|jioed|jio{2,})\b,jio
+\b(saboed|sabo)\b,sabotage
+\b(gg{2,})\b,gg
+\b(onz+|on{2,})\b,on
+\b(lao\s?ban)\b,laoban
+\b(dulanz+|dulan+|tulan{2,})\b,tulan
+\b(chiobu|chio{2,})\b,chio
+\b(bo\s?chap|bo\s?chup|bochup)\b,bochap
+\b(xia\s?suay+|sia\s?suay+|xiasuay+|xiashui+|siasuay+|xiasui{2,})\b,xiasui
+\b(siao{2,})\b,siao
+\b(atas{2,})\b,atas
+\b(zao\-ing|zhao{2,}|zao+)\b,zhao
+\b(tau\spok)\b,taupok
+\b(ar\s?boh\s?then|ah\s?bu\s?then|ah\s?boh|ah\s?bo)\b,abuden
+\b(ang\smoh|angmo|angmoh|angmo)\b,ang mo
+\b(ka\s?ki\s?lang|ka\s?ki\s?nang|kakinang)\b,kakilang
+\b(kau\s?lat|gou\s?li|gouli)\b,kaulat
+\b(orbigood|orbi\s?quek|orbi\s?quak|orbi\s?kuak)\b,orbi good
+\b(swee{2,})\b,swee
+\b(gan\s?bate|gambatte|jia\syou|jia\s?yao|ganbate)\b,jiayou
+\b(ang\s?bao|ang\s?pow|hong\s?bao|angpow)\b,angbao
+\b(ma\s?huan|ma\sfan)\b,mafan
+\b(ba\sgua)\b,bagua
+\b(pai\s?tuo|pai\s?tor|pak\s?tor|pa\s?tuo|pa\s?tor|patuo)\b,paktor
+\b(shun\sbian|shun\s?pian)\b,shunbian
+\b(heng{2,})\b,heng
+\b(yam\scha)\b,yamcha
+\b(lim\s?kopi|la\s?kopi|lakopi|lkp)\b,lim kopi
+\b(da\s?bao|tapao)\b,dabao
+\b(tze\s?char|zi\s?cha|zichar)\b,zicha
+\b(kou\sfu)\b,koufu
+\b(suibian)\b,sui bian
+\b(malu{2,})\b,malu
+\b(lepak{2,})\b,lepak
+\b(agak\s?agak|agar\s?agar|agak\-agak)\b,agar-agar
+\b(chim{2,}|cheem+)\b,chim
+\b(koped|kope{2,}|kop)\b,kope
+\b(ka\s?jiao+|kachiao+|kechiaw+|kajiao+)\b,kacau
+\b(buay\s?tahan|beh\s?tahan|behtahan|buay\s?tarhan|buey\s?tahan| buey\s?tarhan)\b,behtahan
+\b(lan\sjiao+|lanjiao{2,}|lj)\b,lanjiao
+\b(bak\s?chang|bak\s?zhang|bakzang)\b,bak zang
+\b(bee\s?hoon|bi\s?hoon|beehoon)\b,beehoon
+\b(belacan|blacan)\b,belancan
+\b(ah lian)\b,ahlian
+\b(ah beng)\b,ahbeng
+\b(ah seng)\b,ahseng
+\b(ah long)\b,ahlong
+\b(ah neh)\b,ahneh
+\b(ah tiong)\b,ahtiong
+\b(ah\s?(kwa|kua|qua))\b,ahgua
+\b(abnn)\b,ah-bu-neh-neh
+\b(ah[ -]?[bp]u[ -]?neh?[ -]?neh?)\b,ah-bu-neh-neh
+\b(buay\s?kan)\b,buay gan
+\b(caipng)\b,cai png
+\b(chao keng)\b,chaokeng
+\b(ch?in\s?ch?ai)\b,chinchai
+\b(d[uo]n+id)\b,dunnid
+\b(dua\s?(kee|ki))\b,dua kee
+\b(gei\s?gei)\b,geh geh
+\b(ge[ih]\s?kiang)\b,geikiang
+\b(go\s?stun)\b,gostan
+\b([kg]wai\s+lan)\b,guailan
+\b(ho\s?(sei|seh|say))\b,hoseh
+\b(holiao)\b,ho liao
+\b(hong\s?[gk]an)\b,honggan
+\b(jelak)\b,jelat
+\b(jia lat)\b,jialat
+\b(ji tao)\b,jitao
+\b(kampung)\b,kampong
+\b(kar chng)\b,karchng
+\b((ki|ke+)\s?siao+)\b,kisiao
+\b(kns)\b,kenasai
+\b(ke\s?na\s?sai)\b,kenasai
+\b(ke\s?yi\s?ma)\b,kym
+\b(ke\s?yi)\b,ky
+\b(kiampah?)\b,kiam pa
+\b(kia si)\b,kiasi
+\b(ki chia)\b,kichia
+\b(kkj)\b,kukujiao
+\b(ku\s?ku\s?jiao)\b,kukujiao
+\b(lao lan)\b,laolan
+\b(le[yh]\s?chey)\b,leychey
+\b(lao sai)\b,laosai
+\b(lim\s?[bp]e[hi])\b,limpeh
+\b(nuah+)\b,nua
+\b(machiam)\b,macam
+\b(pangsai)\b,pang sai
+\b(pangseh)\b,pang seh
+\b(pangjio)\b,pang jio
+\b(paikia)\b,pai kia
+\b(pok kai)\b,pokkai
+\b(rabz)\b,rabak
+\b(shia+t)\b,shiat
+\b(siambu)\b,siam bu
+\b(siamdiu)\b,siam diu
+\b(si mi)\b,simi
+\b(similj|smlj)\b,simi lanjiao
+\b(si\s?gin+a)\b,si gina
+\b(suah+)\b,sua
+\b(skali)\b,sekali
+\b(swaku)\b,suaku
+\b(tow kay)\b,towkay
+\b(tiko peh)\b,tikopeh
+\b(tokok)\b,talk cock
+\b(tai ko)\b,tyco
+\b((tze|zi)\s?char)\b,tzechar
+\b(wa seh)\b,waseh
+\b(xia lan)\b,xialan
+\b(xiao\s?mei\s?mei)\b,xmm
+\b([cz]har?\s?bor?h?)\b,zhabor
+\b(ha(ha)+)\b,haha
+\b(lol(ol)+)\b,lolol
+\b(ya[wo]\s?siew)\b,yaosiew
+\b(n(?:ia?h?)?abei?)\b,nabeh
+\b(na\sbeh)\b,nabeh
+\b(l(?:up|ap)\ssup|lupsup)\b,lapsap
