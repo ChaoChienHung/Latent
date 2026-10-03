@@ -14,8 +14,16 @@ import logging
 from pathlib import Path
 import re
 
-import contractions
-import emoji
+try:
+    import contractions
+except ImportError:
+    contractions = None
+
+try:
+    import emoji
+except ImportError:
+    emoji = None
+
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -63,10 +71,14 @@ class TextNormalizer:
 
     def expand_contractions(self, text: str) -> str:
         """Expand English contractions (e.g. don't -> do not)."""
-        return contractions.fix(text)
+        if contractions is not None:
+            return contractions.fix(text)
+        return text
 
     def handle_emojis(self, text: str, replace_with: str = "demojize") -> str:
         """Handle emojis by converting to text descriptions or removing."""
+        if emoji is None:
+            return text
         if replace_with == "demojize":
             return emoji.demojize(text, delimiters=(" ", " "))
         elif replace_with == "remove":

@@ -89,7 +89,9 @@ class VectorSpaceModelBuilder:
         """Generate and save Sentence-BERT dense embeddings."""
         log.info("Encoding texts with Sentence-BERT ('%s')...", model_name)
         try:
-            from sentence_transformers import SentenceTransformer
+            import importlib
+            st_mod = importlib.import_module("sentence_transformers")
+            SentenceTransformer = st_mod.SentenceTransformer
             sbert = SentenceTransformer(model_name)
             texts = df_posts[col].astype(str).tolist()
             embeddings = sbert.encode(texts, batch_size=batch_size, show_progress_bar=True)

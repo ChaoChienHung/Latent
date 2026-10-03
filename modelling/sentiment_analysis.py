@@ -16,8 +16,13 @@ from typing import Sequence
 
 import numpy as np
 import pandas as pd
-import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+try:
+    import torch
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+except ImportError:
+    torch = None
+    AutoModelForSequenceClassification = None
+    AutoTokenizer = None
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
@@ -35,6 +40,12 @@ class EmotionClassifier:
         device: str | None = None,
         max_length: int = 256,
     ) -> None:
+        if torch is None or AutoModelForSequenceClassification is None:
+            raise ImportError(
+                "PyTorch and HuggingFace transformers are required for emotion classification. "
+                "Install them via: pip install torch transformers"
+            )
+
         self.model_name = model_name
         self.max_length = max_length
 
