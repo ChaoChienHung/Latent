@@ -170,7 +170,7 @@ Latent/
 │       ├── index.html                        #     HTML entry point
 │       ├── package.json                      #     NPM dependencies
 │       ├── vite.config.js                    #     Vite config (API proxy → :5000)
-│       ├── public/                           #     Static assets (favicon, icons)
+│       ├── public/                           #     Static assets (favicon)
 │       └── src/
 │           ├── main.jsx                      #     React entry point
 │           ├── App.jsx                       #     Route definitions
