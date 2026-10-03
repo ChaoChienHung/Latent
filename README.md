@@ -4,6 +4,11 @@
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![React 19](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
+[![Vite 8](https://img.shields.io/badge/Vite-8-646cff.svg)](https://vitejs.dev/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-black.svg)](https://flask.palletsprojects.com/)
+
+---
 
 ## 🏫 Origins & Acknowledgements
 
@@ -13,11 +18,12 @@ This project originated as the **CS5246 Text Mining** final project at the **Nat
 - **[Cindy Chin](https://github.com/cindychin)**
 - **[Wkkuu](https://github.com/wkkuu)**
 
-Latent is a **self-refinement** that restructures, extends, and improves the original project with:
-- Cleaner code organization and modular pipeline design
-- Dual execution modes (local Python + Google Colab)
-- An integrated full-stack analytics dashboard (Flask + React)
-- Improved documentation and reproducibility
+Latent represents a **self-refinement** by the author, transforming the academic project into a modular, production-ready NLP system:
+- **Clean modular architecture**: Pipeline stages refactored into dedicated Python packages (`preprocessing/`, `modelling/`, `search/`).
+- **Dual execution modes**: Unified interactive notebooks with auto-detection for both **local environments** (custom GPU/CPU) and **Google Colab** (free T4 GPU).
+- **Separated Full-Stack Dashboard**: Decoupled Flask REST API (`backend/`) and modern React 19 SPA (`frontend/`).
+- **Centralized Artifacts**: Standardized outputs, analytical plot generation, and exploratory Streamlit tools in `artifacts/`.
+- **Comprehensive Documentation**: Complete tech stack references, architecture maps, and reproducibility guides.
 
 ---
 
@@ -29,48 +35,51 @@ Latent analyzes **posts and comments from r/Singapore** to surface public opinio
 
 | Capability | Description |
 |---|---|
-| 🕸️ **Data Scraping** | Historical + incremental Reddit data collection |
-| 🧹 **Text Preprocessing** | URL/bot/noise removal, Singlish normalization, spell correction |
-| 🏷️ **POS & NER Tagging** | Linguistic annotation with spaCy |
-| 🇸🇬 **Singlish Handling** | Custom dictionary-based normalization and translation |
-| 📊 **Topic Clustering** | TF-IDF + K-Means with Silhouette-optimized cluster selection |
-| 😊 **Emotion Analysis** | 7-class emotion classification via DistilRoBERTa |
-| 🔍 **Document Search** | BM25 + TF-IDF + Sentence-BERT retrieval engines |
-| 📈 **Analytics Dashboard** | Full-stack React dashboard with 20+ interactive visualizations |
+| 🕸️ **Data Scraping** | Historical archive extraction (Arctic Shift API) + live incremental scraping (PRAW) |
+| 🧹 **Data Cleaning** | URL/bot/noise filtering, deduplication, schema canonicalization |
+| 🏷️ **POS & NER Tagging** | Linguistic annotation using spaCy (`en_core_web_sm`) |
+| 🇸🇬 **Singlish Handling** | Custom regex particle normalization and dictionary-based English translation |
+| 🔤 **Text Normalisation** | Slang expansion, emoji translation, contraction resolution, lemmatization |
+| 📐 **Vector Space Models** | TF-IDF matrices, BM25Okapi retrieval indices, and Sentence-BERT embeddings |
+| 😊 **Emotion Analysis** | 7-class emotion classification via RoBERTa (`anger`, `disgust`, `fear`, `joy`, `neutral`, `sadness`, `surprise`) |
+| 📊 **Topic Clustering** | SVD dimensionality reduction, Silhouette-optimized K-Means clustering, and t-SNE |
+| 🔍 **Document Search** | Hybrid multi-metric search (TF-IDF + BM25 + SBERT) with Centroid Tree search |
+| 📈 **Analytics Dashboard** | Decoupled full-stack React SPA with 20+ interactive visualizations and REST API |
 
 ---
 
 ## 🏗️ Architecture & Workflow
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        DATA COLLECTION                              │
-│  Arctic Shift API (historical) ──→ scrape.py                       │
-│  Reddit API / PRAW (incremental) ──→ scrape_incremental.py         │
-└────────────────────────────┬────────────────────────────────────────┘
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                     TEXT PREPROCESSING PIPELINE                     │
-│  Stage 1: Data Cleaning (URLs, bots, duplicates, encoding)         │
-│  Stage 2: POS & NER Tagging (spaCy)                                │
-│  Stage 3: Singlish Normalisation (custom dictionary)               │
-│  Stage 4: Singlish → English Conversion                            │
-│  Stage 5: Common Normalisation (slang, spelling, lemmatization)    │
-└────────────────────────────┬────────────────────────────────────────┘
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                     MODELLING & ANALYSIS                            │
-│  Stage 6: Vector Space Model + Inverted Index (TF-IDF, BM25, BERT)│
-│  Stage 7: Sentiment & Emotion Analysis (DistilRoBERTa)            │
-│  Stage 8: Topic Clustering (K-Means + t-SNE visualization)        │
-│  Stage 9: Document Search & Recommendation Engine                  │
-└────────────────────────────┬────────────────────────────────────────┘
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                      ANALYTICS DASHBOARD                            │
-│  Flask API (pre-computed analytics) ──→ React SPA (Chakra UI)      │
-│  20+ interactive charts: topics, emotions, engagement, search      │
-└─────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│                        DATA COLLECTION                                 │
+│  Arctic Shift API (historical archive) ──→ data_scrape/scrape.py       │
+│  Reddit API / PRAW (live incremental) ──→ data_scrape/scrape_incremental.py
+└───────────────────────────────┬────────────────────────────────────────┘
+                                ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                     TEXT PREPROCESSING PIPELINE                        │
+│  Stage 1: preprocessing/data_cleaning.py (URLs, bots, dedup)           │
+│  Stage 2: preprocessing/pos_ner_tagging.py (spaCy POS/NER)             │
+│  Stage 3: preprocessing/singlish_normalisation.py (particle regex)     │
+│  Stage 4: preprocessing/singlish_to_english.py (lexicon mapping)       │
+│  Stage 5: preprocessing/common_normalisation.py (slang, lemmatization) │
+└───────────────────────────────┬────────────────────────────────────────┘
+                                ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                     MODELLING & RETRIEVAL                              │
+│  Stage 6: modelling/vector_space_model.py (TF-IDF, BM25, SBERT, Index) │
+│  Stage 7: modelling/sentiment_analysis.py (RoBERTa 7-class emotions)   │
+│  Stage 8: modelling/clustering.py (SVD, K-Means, t-SNE, keywords)      │
+│  Stage 9: search/document_search.py (Hybrid Search + Recommendations)  │
+└───────────────────────────────┬────────────────────────────────────────┘
+                                ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                      ANALYTICS & VISUALIZATION                         │
+│  Backend: backend/app.py (Flask REST API serving data & models)        │
+│  Frontend: frontend/ (React 19 SPA + Chakra UI 3 + Recharts/Plotly)    │
+│  Artifacts: artifacts/ (Analytical plots & Streamlit explorer)         │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -80,143 +89,84 @@ Latent analyzes **posts and comments from r/Singapore** to surface public opinio
 ```
 Latent/
 │
-│── ─── Root ───────────────────────────────────────────────────────────
-│
-├── README.md                                 # Project overview & guide (this file)
-├── AGENTS.md                                 # AI agent rules & coding conventions
-├── TODO.md                                   # Task tracker with checkboxes
+├── README.md                                 # Project overview & documentation (this file)
+├── AGENTS.md                                 # Contributor rules & AI conventions
+├── TODO.md                                   # Project development roadmap & task tracking
 ├── LICENSE                                   # MIT License
-├── .gitignore                                # Git exclusions (data, models, caches)
-├── requirements.txt                          # Python deps for the full pipeline
-├── emotion_inference.py                      # Standalone emotion classification CLI
-│
-│── ─── Data Collection ────────────────────────────────────────────────
+├── Makefile                                  # Root automation (make install / dev / build)
+├── requirements.txt                          # Top-level pipeline Python dependencies
+├── .gitignore                                # Excludes large datasets, models, caches
 │
 ├── data_scrape/                              # Reddit data collection
-│   ├── scrape.py                             #   Historical bulk scrape (Arctic Shift API)
-│   └── scrape_incremental.py                 #   Incremental live scrape (PRAW / Reddit API)
+│   ├── scrape.py                             #   Historical archive scraper (Arctic Shift API)
+│   └── scrape_incremental.py                 #   Incremental live scraper (PRAW / Reddit API)
 │
-│── ─── Pipeline Notebooks ─────────────────────────────────────────────
+├── preprocessing/                            # Python data preprocessing pipeline (Stages 1–5)
+│   ├── __init__.py                           #   Exports cleaning & normalizer classes
+│   ├── data_cleaning.py                      #   Stage 1: deduplication, schema, bot removal
+│   ├── pos_ner_tagging.py                    #   Stage 2: spaCy POS & NER extractors
+│   ├── singlish_normalisation.py             #   Stage 3: Singlish particle normalization
+│   ├── singlish_to_english.py                #   Stage 4: Dictionary translation to standard English
+│   └── common_normalisation.py               #   Stage 5: Slang expansion, emojis, lemmatization
 │
-├── notebooks/                                # Organized pipeline notebooks
-│   ├── README.md                             #   Guide: local vs Colab usage
-│   ├── local/                                #   🖥️  Local Jupyter (your GPU)
-│   │   ├── Stage_0_Introduction.ipynb
-│   │   ├── Stage_1_Data_Collection.ipynb
-│   │   ├── Stage_2_POS_NER_Tagging.ipynb
-│   │   ├── Stage_3_Singlish_Normalisation.ipynb
-│   │   ├── Stage_4_Singlish_to_English.ipynb
-│   │   ├── Stage_5_Text_Normalisation.ipynb
-│   │   ├── Stage_6_Vector_Space_Model.ipynb
-│   │   ├── Stage_7_Sentiment_Analysis.ipynb
-│   │   ├── Stage_8_Clustering.ipynb
-│   │   ├── Stage_9_Document_Search.ipynb
-│   │   └── Appendix_1_Sentiment_Benchmark.ipynb
-│   └── colab/                                #   ☁️  Google Colab (free T4 GPU)
-│       ├── Stage_0_Introduction.ipynb        #     ↳ Each has Colab badge + auto-setup
-│       ├── Stage_1_Data_Collection.ipynb
-│       ├── Stage_2_POS_NER_Tagging.ipynb
-│       ├── Stage_3_Singlish_Normalisation.ipynb
-│       ├── Stage_4_Singlish_to_English.ipynb
-│       ├── Stage_5_Text_Normalisation.ipynb
-│       ├── Stage_6_Vector_Space_Model.ipynb
-│       ├── Stage_7_Sentiment_Analysis.ipynb
-│       ├── Stage_8_Clustering.ipynb
-│       ├── Stage_9_Document_Search.ipynb
-│       └── Appendix_1_Sentiment_Benchmark.ipynb
+├── modelling/                                # Machine learning & NLP models (Stages 6–8)
+│   ├── __init__.py                           #   Exports model builders & clusterers
+│   ├── vector_space_model.py                 #   Stage 6: TF-IDF, BM25, SBERT, inverted index
+│   ├── sentiment_analysis.py                 #   Stage 7: RoBERTa emotion classification
+│   ├── clustering.py                         #   Stage 8: SVD, K-Means clustering, t-SNE
+│   └── emotion_inference.py                  #   Standalone RoBERTa batch CLI inference
 │
-│── ─── Original Notebooks (Legacy) ───────────────────────────────────
+├── search/                                   # Document retrieval & recommendations (Stage 9)
+│   ├── __init__.py                           #   Exports CentroidTreeSearch & SearchEngine
+│   └── document_search.py                    #   Stage 9: Hybrid multi-metric search & recs
 │
-├── Stage_0_Introduction.ipynb                # Original CS5246 notebooks (kept for reference)
-├── Stage_1_Data_Collection_and_Data_Cleaning.ipynb
-├── Stage_2_POS_and_NER_Tagging.ipynb
-├── Stage_3_Singlish_Normalisation.ipynb
-├── Stage_4_Singlish_to_English_Conversion.ipynb
-├── Stage_5_Common_Normalisation.ipynb
-├── Stage_6_Vector_Space_Model_and_Inverted_Index.ipynb
-├── Stage_8_Clustering_and_Visualization.ipynb
-├── Stage_9_Document_Search.ipynb
-├── Step_Appendix_1_Sentiment Labelling (Benchmark).ipynb
+├── notebooks/                                # Dual-environment Jupyter notebooks (Local / Colab)
+│   ├── README.md                             #   Notebook guide & instructions
+│   ├── Stage_0_Introduction.ipynb            #   Stage 0: Pipeline architecture & overview
+│   ├── Stage_1_Data_Collection.ipynb         #   Stage 1: Data cleaning & preprocessing
+│   ├── Stage_2_POS_NER_Tagging.ipynb         #   Stage 2: POS & NER tagging
+│   ├── Stage_3_Singlish_Normalisation.ipynb  #   Stage 3: Singlish normalization
+│   ├── Stage_4_Singlish_to_English.ipynb     #   Stage 4: Singlish → English conversion
+│   ├── Stage_5_Text_Normalisation.ipynb      #   Stage 5: Slang, emojis, lemmatization
+│   ├── Stage_6_Vector_Space_Model.ipynb      #   Stage 6: TF-IDF, BM25, SBERT, inverted index
+│   ├── Stage_7_Sentiment_Analysis.ipynb      #   Stage 7: Emotion classification
+│   ├── Stage_8_Clustering.ipynb              #   Stage 8: Topic clustering & t-SNE
+│   ├── Stage_9_Document_Search.ipynb         #   Stage 9: Search & recommendation engine
+│   └── Appendix_1_Sentiment_Benchmark.ipynb  #   Appendix: Zero-shot & benchmark evaluation
 │
-│── ─── Utilities & Dictionaries ───────────────────────────────────────
-│
-├── utilities/                                # Shared helper modules & dictionaries
-│   ├── pp_class.py                           #   RedditPreprocessor class (cleaning pipeline)
-│   ├── singlish_dictionary.json              #   Singlish → English word mappings
-│   ├── singlish_regex_to_text.txt            #   Singlish regex normalization patterns
-│   └── slang_dictionary.csv                  #   Internet slang expansion table
-│
-│── ─── Analytics Dashboard ────────────────────────────────────────────
-│
-├── dashboard-ui/                             # Full-stack analytics dashboard
-│   ├── app.py                                #   Flask API backend (892 lines, 20 endpoints)
-│   ├── Makefile                              #   Dev commands (make install/dev/build)
+├── backend/                                  # Flask REST API server
+│   ├── app.py                                #   API endpoints & pre-computed analytics
 │   ├── pyproject.toml                        #   Python project metadata (uv)
 │   ├── requirements.txt                      #   Backend Python dependencies
-│   ├── documentation.md                      #   Detailed backend + frontend docs
-│   ├── README.md                             #   Dashboard quick-start guide
-│   │
-│   ├── data/                                 #   📊 Processed datasets (gitignored)
-│   │   ├── PostVault.csv                     #     Main dataset (~6k posts)
-│   │   ├── stopword_lemmatized_posts_0.csv   #     Preprocessed posts
-│   │   └── ..._labels_w_emot.csv             #     Posts + emotion predictions
-│   │
-│   ├── models/                               #   🤖 Trained ML models (gitignored)
-│   │   ├── bm25_fulltext_model.joblib        #     BM25 index (full text)
-│   │   ├── bm25_titles_model.joblib          #     BM25 index (titles)
-│   │   └── tfidf_posts_vectorizer.joblib     #     Fitted TF-IDF vectorizer
-│   │
-│   └── dashboard/                            #   ⚛️  React + Vite frontend
-│       ├── index.html                        #     HTML entry point
-│       ├── package.json                      #     NPM dependencies
-│       ├── vite.config.js                    #     Vite config (API proxy → :5000)
-│       ├── public/                           #     Static assets (favicon)
-│       └── src/
-│           ├── main.jsx                      #     React entry point
-│           ├── App.jsx                       #     Route definitions
-│           ├── theme.js                      #     Chakra UI theme config
-│           ├── index.css                     #     Global styles
-│           ├── components/
-│           │   ├── Layout.jsx                #       Page wrapper + gradient bg
-│           │   ├── Navbar.jsx                #       Sticky navigation bar
-│           │   └── WordCloud.jsx             #       d3-cloud word cloud
-│           ├── data/
-│           │   ├── api.jsx                   #       DataProvider context + useData()
-│           │   └── mockData.js               #       Fallback data for offline dev
-│           └── pages/
-│               ├── TopicOverview.jsx          #       Main dashboard (KPIs, charts)
-│               ├── TopicDeepDive.jsx          #       Single-topic analysis
-│               ├── Timeline.jsx              #       Topic volume over time
-│               ├── EmotionAnalysis.jsx        #       7-class emotion breakdown
-│               ├── DocumentSearch.jsx         #       BM25 / TF-IDF search UI
-│               ├── DataInsights.jsx           #       Heatmaps, distributions
-│               ├── BM25DeepDive.jsx           #       BM25 algorithm explainer
-│               ├── MethodComparison.jsx       #       BM25 vs TF-IDF comparison
-│               └── Recommendations.jsx        #       Post recommendations
+│   ├── Makefile                              #   Backend-specific commands
+│   ├── documentation.md                      #   Full API specification (20 endpoints)
+│   ├── data/                                 #   Runtime CSV datasets (gitignored)
+│   └── models/                               #   Fitted ML models (.joblib) (gitignored)
 │
-│── ─── Sentiment Plots (Legacy) ───────────────────────────────────────
+├── frontend/                                 # React 19 SPA dashboard
+│   ├── index.html                            #   HTML entry point
+│   ├── package.json                          #   NPM dependencies (Chakra UI, Recharts, Plotly)
+│   ├── vite.config.js                        #   Vite config (API proxy to :5000)
+│   ├── public/                               #   Static assets (favicon)
+│   └── src/                                  #   Components, pages, context, and styles
 │
-├── sentiment_plots/                          # Standalone sentiment visualization scripts
-│   ├── emotion_dashboard.py                  #   Streamlit emotion dashboard
-│   ├── plot_emotion_summary.py               #   Static plot generation
-│   └── emotion_plots/                        #   Generated PNGs (gitignored)
+├── artifacts/                                # Output generation & exploratory tools
+│   ├── README.md                             #   Artifacts guide
+│   ├── emotion_dashboard.py                  #   Streamlit interactive emotion explorer
+│   ├── plot_emotion_summary.py               #   Publication-ready chart generator
+│   └── emotion_plots/                        #   Saved plot figures (.gitkeep)
 │
-│── ─── Scripts & Documentation ────────────────────────────────────────
+├── utilities/                                # Shared lingual dictionaries & helpers
+│   ├── pp_class.py                           #   RedditPreprocessor class
+│   ├── singlish_dictionary.json              #   Singlish → English dictionary
+│   ├── singlish_regex_to_text.txt            #   Regex normalization patterns
+│   └── slang_dictionary.csv                  #   Internet slang & abbreviations
 │
-├── scripts/                                  # Dev & maintenance scripts
-│   └── convert_notebooks.py                  #   Convert Stage notebooks → local + Colab
+├── scripts/                                  # Repository maintenance
+│   └── convert_notebooks.py                  #   Notebook sanitizer & dual-setup validator
 │
-├── tech/                                     # Tech stack documentation
-│   └── STACK.md                              #   Complete technology reference (30+ tools)
-│
-│── ─── Generated at Runtime (gitignored) ──────────────────────────────
-│
-└── intermediate_data/                        # Pipeline outputs (created when you run stages)
-    ├── PostVault.csv                         #   Generated by Stage 1
-    ├── CommentVault.csv                      #   Generated by Stage 1
-    ├── *_normalized.csv                      #   Generated by Stages 3–5
-    ├── *.npz / *.npy / *.joblib             #   Generated by Stage 6
-    └── *_labels.csv                          #   Generated by Stage 7
+└── tech/                                     # Architecture documentation
+    └── STACK.md                              #   Detailed tech stack reference (30+ tools)
 ```
 
 ---
@@ -226,171 +176,129 @@ Latent/
 ### Prerequisites
 
 - **Python 3.11+**
-- **Node.js 18+** and **npm** (for the dashboard)
-- **GPU (optional)**: NVIDIA GPU with CUDA for faster model inference
+- **Node.js 18+** and **npm**
+- **uv** (optional, recommended for fast Python package resolution)
 
-### Option A: Local Python (with your own GPU)
+### Quick Start (Full-Stack Dev Server)
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/Latent.git
+# 1. Clone repository
+git clone https://github.com/ChaoChienHung/Latent.git
 cd Latent
 
-# 2. Create a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+# 2. Install all dependencies (backend + frontend)
+make install
 
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. (Optional) Set up Reddit API credentials for incremental scraping
-cat > .env << EOF
-REDDIT_CLIENT_ID=your_client_id
-REDDIT_CLIENT_SECRET=your_client_secret
-REDDIT_USER_AGENT=your_user_agent
-EOF
-
-# 5. Run the pipeline (see Pipeline Stages below)
+# 3. Start backend and frontend concurrently
+make dev
 ```
 
-### Option B: Google Colab (free GPU)
-
-1. Open any notebook from the `notebooks/colab/` directory
-2. Click **"Open in Colab"** badge at the top of each notebook
-3. Set runtime to **GPU** (`Runtime → Change runtime type → T4 GPU`)
-4. Run cells sequentially — each notebook auto-installs its dependencies
-
-> **Note**: Colab notebooks include `!pip install` cells and mount Google Drive for data persistence between sessions.
+Visit **http://localhost:5173** to view the interactive dashboard.
 
 ---
 
-## 🔧 Pipeline Stages
+## 🏃 Running the Pipeline
 
-### Stage 0 — Data Scraping
+You can run the NLP pipeline either via **Python scripts** or via **Jupyter notebooks**.
 
-**Historical scraping** via [Arctic Shift API](https://arctic-shift.photon-reddit.com/):
+### Method 1: Modular Python Scripts
+
+Run the pipeline stages sequentially from the repository root:
+
 ```bash
+# 1. Scrape raw data
 python data_scrape/scrape.py --subreddit singapore --year 2025
-```
-- `--year`: Year to scrape (default: `2025`)
-- `--download-media`: Also download media files
 
-**Incremental scraping** via [PRAW](https://praw.readthedocs.io/) (designed for cron jobs):
-```bash
-python data_scrape/scrape_incremental.py --subreddit singapore --limit 1000
-```
-- `--limit`: Max posts to fetch (max 1000)
-- `--output-dir`: Output directory for CSV files
+# 2. Clean raw posts and comments
+python -m preprocessing.data_cleaning --input-dir data_scrape/data --output-dir intermediate_data
 
-### Stage 1 — Data Collection & Cleaning
+# 3. POS & NER tagging
+python -m preprocessing.pos_ner_tagging --input intermediate_data/cleaned_posts.csv --output intermediate_data/pos_posts.csv --pos --ner
 
-Cleans raw Reddit data by removing noise (URLs, mentions, bots, duplicates, deleted posts) and normalizing text (punctuation, contractions, emojis).
+# 4. Singlish normalization
+python -m preprocessing.singlish_normalisation --input intermediate_data/cleaned_posts.csv --output intermediate_data/singlish_norm_posts.csv
 
-**Output**: `intermediate_data/PostVault.csv`, `intermediate_data/CommentVault.csv`
+# 5. Singlish to English translation
+python -m preprocessing.singlish_to_english --input intermediate_data/singlish_norm_posts.csv --output intermediate_data/translated_posts.csv
 
-### Stage 2 — POS and NER Tagging
+# 6. Common text normalization & lemmatization
+python -m preprocessing.common_normalisation --input intermediate_data/translated_posts.csv --output intermediate_data/fully_normalized_posts.csv
 
-Applies Part-of-Speech and Named Entity Recognition tagging using spaCy for downstream linguistic analysis.
+# 7. Build Vector Space Models (TF-IDF, BM25, SBERT)
+python -m modelling.vector_space_model --posts intermediate_data/fully_normalized_posts.csv --output-dir data/ --with-sbert
 
-### Stage 3 — Singlish Normalisation
+# 8. Emotion Classification
+python -m modelling.sentiment_analysis --input data/PostVault.csv --output intermediate_data/posts_with_emotions.csv
 
-Standardizes Singlish expressions using a custom dictionary (`utilities/singlish_dictionary.json`) to reduce lexical variation.
+# 9. Topic Clustering
+python -m modelling.clustering --matrix data/vector_database/tfidf_fulltext.npz --k 7 --output-labels intermediate_data/cluster_labels.npy
 
-### Stage 4 — Singlish → English Conversion
-
-Converts remaining Singlish terms to standard English. Tracks the number of converted terms per post/comment in a `singlish_count` column.
-
-### Stage 5 — Common Text Normalisation
-
-Applies slang expansion, spelling correction, stop word removal, and lemmatization. Produces the final clean text columns used for all downstream modelling.
-
-### Stage 6 — Vector Space Model & Inverted Index
-
-Builds TF-IDF, BM25, and Sentence-BERT representations for posts and comments. Constructs an inverted index for fast retrieval.
-
-**Outputs**: `.npz` matrices, `.joblib` models, `.npy` BERT embeddings, `.json` inverted indices
-
-### Stage 7 — Sentiment & Emotion Analysis
-
-Classifies posts using `j-hartmann/emotion-english-distilroberta-base` into 7 emotion categories: anger, disgust, fear, joy, neutral, sadness, surprise.
-
-```bash
-python emotion_inference.py --input intermediate_data/PostVault.csv --batch-size 16
+# 10. Document Search & Recommendation
+python -m search.document_search --query "cost of living in Singapore"
 ```
 
-### Stage 8 — Topic Clustering & Visualization
+### Method 2: Dual-Environment Notebooks
 
-Reduces feature dimensionality with SVD, selects optimal cluster count via Silhouette Score, and runs K-Means clustering. Visualizes clusters with t-SNE and word clouds.
+All notebooks in [`notebooks/`](notebooks/) run seamlessly on both your **local machine** and **Google Colab**:
 
-**Output**: `tfidf_cluster`, `bm25_cluster`, `bert_cluster` columns added to the data.
-
-### Stage 9 — Document Search & Recommendation
-
-Implements a search engine and recommendation system using TF-IDF, BM25, and BERT embeddings, with heuristic ranking (title weighting, recency, upvotes, comment count).
+- **Local Machine**: Run `jupyter notebook notebooks/` — the environment detector configures local file paths automatically.
+- **Google Colab**: Click the **"Open In Colab"** badge at the top of any notebook. The startup cell automatically mounts Google Drive, pulls the latest code, and installs all dependencies on a free GPU runtime.
 
 ---
 
 ## 📊 Analytics Dashboard
 
-The project includes a **full-stack analytics dashboard** built with Flask (backend) and React + Chakra UI (frontend).
-
-### Running the Dashboard
+The full-stack dashboard provides interactive visual exploration of Reddit sentiment, topics, and search:
 
 ```bash
-cd dashboard-ui
+# Start backend only (Flask on port 5000)
+make backend
 
-# Install dependencies
-pip install -r requirements.txt
-cd dashboard && npm install && cd ..
+# Start frontend only (Vite on port 5173)
+make frontend
 
-# Start both servers
-make dev
-# Or manually:
-# Terminal 1: python app.py          (Flask API on port 5000)
-# Terminal 2: cd dashboard && npm run dev  (React on port 5173)
+# Build frontend production bundle
+make build
 ```
 
-Open **http://localhost:5173** in your browser.
+### Dashboard Pages
 
-### Dashboard Features
-
-| Page | Description |
+| Page | Features |
 |---|---|
-| **Topic Overview** | Global KPIs, topic distribution, word clouds, engagement scatter |
-| **Topic Deep Dive** | Per-cluster analysis: top posts, keywords, controversies |
-| **Timeline** | Stacked area chart of topic volume over time |
-| **Emotion Analysis** | 7-class emotion breakdowns by time, day, flair, engagement |
-| **Document Search** | BM25 / TF-IDF search with relevance scoring |
-| **Data Insights** | Activity heatmaps, score distribution, Singlish usage |
+| **Topic Overview** | KPI cards, topic volume breakdown, interactive `d3-cloud` word clouds, engagement scatter plots |
+| **Topic Deep Dive** | Deep dive into specific topic clusters with keyword weights, representative posts, and sentiment breakdown |
+| **Timeline** | Temporal trends showing topic volume and conversation shifts across months |
+| **Emotion Analysis** | 7-class emotion radar profiles, time-of-day/day-of-week dynamics, flair distributions |
+| **Document Search** | Real-time hybrid search comparing TF-IDF, BM25, and SBERT relevance scores |
+| **Recommendations** | Content-based recommendation of related posts and discussions |
+| **Method Comparison** | In-depth algorithmic comparison between probabilistic and vector space retrieval |
 
 ---
 
-## 📡 Data Sources
+## 🎨 Artifacts & Exploratory Analysis
 
-| Source | Method | Description |
+The `artifacts/` folder hosts generated analysis outputs and exploratory tools:
+
+```bash
+# Generate analytical plots
+python artifacts/plot_emotion_summary.py \
+  --input backend/data/stopword_lemmatized_posts_0_labels_w_emot.csv \
+  --output-dir artifacts/emotion_plots
+
+# Launch interactive Streamlit explorer
+streamlit run artifacts/emotion_dashboard.py
+```
+
+---
+
+## 📡 Data Sources & Acquisition
+
+| Source | Script | Description |
 |---|---|---|
-| [Arctic Shift API](https://arctic-shift.photon-reddit.com/) | `data_scrape/scrape.py` | Historical Reddit archive — bulk download by year/month |
-| [Reddit API (PRAW)](https://praw.readthedocs.io/) | `data_scrape/scrape_incremental.py` | Live Reddit API — incremental scraping (max 1000 posts) |
+| [Arctic Shift API](https://arctic-shift.photon-reddit.com/) | `data_scrape/scrape.py` | Historical Reddit archive — bulk monthly extraction without rate limits |
+| [Reddit API (PRAW)](https://praw.readthedocs.io/) | `data_scrape/scrape_incremental.py` | Official live Reddit API — cron-friendly incremental post collector |
 
-### How to Get the Data
-
-1. **Historical data**: Run `python data_scrape/scrape.py --subreddit singapore --year 2025`. This hits the Arctic Shift API (no API key required) and saves posts + comments as CSV files.
-
-2. **Incremental data**: Create a Reddit app at [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps), save credentials to `.env`, then run `python data_scrape/scrape_incremental.py`.
-
-3. **Pre-processed data**: The pipeline stages generate intermediate CSV files in `intermediate_data/`. These are **not committed to the repository** due to size. Re-run the pipeline to regenerate them.
-
----
-
-## 🛠️ Tech Stack
-
-See [`tech/STACK.md`](tech/STACK.md) for the complete technology reference. Key technologies:
-
-- **NLP**: spaCy, NLTK, Hugging Face Transformers, Sentence-BERT
-- **ML**: scikit-learn (TF-IDF, K-Means, SVD), BM25, PyTorch
-- **Frontend**: React 19, Vite 8, Chakra UI 3, Recharts, Plotly.js
-- **Backend**: Flask 3, Pandas, NumPy
-- **Data**: Arctic Shift API, Reddit API (PRAW)
+> **Data Storage**: Processed CSV files and fitted model binaries are gitignored. Place generated data into `backend/data/` and `backend/models/` to power the dashboard.
 
 ---
 

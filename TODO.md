@@ -5,63 +5,56 @@
 
 ---
 
-## Phase 1: Repository Restructuring ✅
+## Phase 1: Repository Restructuring & Attribution ✅
 
 - [x] Initialize Git repository
-- [x] Add comprehensive `.gitignore`
-- [x] Create `TODO.md` (this file)
-- [x] Create `tech/` directory with tech stack documentation
-- [x] Rewrite `README.md` with proper attribution, workflow, and usage guide
-- [x] Remove intermediate data files from version control
-- [x] Clean up `sentiment_plots/` — remove static plot PNGs (integrated into dashboard)
+- [x] Add comprehensive `.gitignore` (ignore intermediate CSVs, .npz, .npy, .joblib, node_modules)
+- [x] Create `TODO.md` task tracker
+- [x] Create `tech/STACK.md` tech stack reference (30+ technologies)
+- [x] Rewrite `README.md` with NUS CS5246 attribution (collaborators: Hawayo, Cindy Chin, Wkkuu)
+- [x] Remove legacy intermediate files and static emotion PNGs from git
+- [x] Add MIT `LICENSE`
 
-## Phase 2: Notebook Reorganization
+## Phase 2: Notebook & Python Pipeline Organization ✅
 
-- [ ] Convert all Stage notebooks into clean, well-documented `.py` scripts
-  - [ ] `pipeline/stage_0_introduction.py` — overview and data summary
-  - [ ] `pipeline/stage_1_data_collection.py` — scrape + clean
-  - [ ] `pipeline/stage_2_pos_ner_tagging.py`
-  - [ ] `pipeline/stage_3_singlish_normalisation.py`
-  - [ ] `pipeline/stage_4_singlish_to_english.py`
-  - [ ] `pipeline/stage_5_text_normalisation.py`
-  - [ ] `pipeline/stage_6_vector_space_model.py`
-  - [ ] `pipeline/stage_7_sentiment_analysis.py`
-  - [ ] `pipeline/stage_8_clustering.py`
-  - [ ] `pipeline/stage_9_search.py`
-- [ ] Create Google Colab versions of all pipeline stages (`notebooks/colab/`)
-- [ ] Create local Jupyter versions (`notebooks/local/`)
-- [ ] Add `pipeline/run_all.py` master runner script
+- [x] Unify notebooks into a single flat `notebooks/` directory
+- [x] Strip all notebook outputs before commit to keep repository lightweight
+- [x] Add dual-environment auto-detection (`IN_COLAB`) and "Open in Colab" badge to all notebooks
+- [x] Create modular Python scripts for all pipeline stages:
+  - [x] `preprocessing/data_cleaning.py` (Stage 1)
+  - [x] `preprocessing/pos_ner_tagging.py` (Stage 2)
+  - [x] `preprocessing/singlish_normalisation.py` (Stage 3)
+  - [x] `preprocessing/singlish_to_english.py` (Stage 4)
+  - [x] `preprocessing/common_normalisation.py` (Stage 5)
+  - [x] `modelling/vector_space_model.py` (Stage 6)
+  - [x] `modelling/sentiment_analysis.py` (Stage 7)
+  - [x] `modelling/clustering.py` (Stage 8)
+  - [x] `modelling/emotion_inference.py` (CLI inference)
+  - [x] `search/document_search.py` (Stage 9)
+- [x] Provide clean `__init__.py` exports for `preprocessing/`, `modelling/`, and `search/`
 
-## Phase 3: Dashboard Integration
+## Phase 3: Dashboard & Full-Stack Architecture Split ✅
 
-- [ ] Merge `sentiment_plots/emotion_dashboard.py` (Streamlit) into `dashboard-ui/`
-- [ ] Consolidate `sentiment_plots/plot_emotion_summary.py` into dashboard
-- [ ] Move `emotion_inference.py` into `pipeline/` as a proper pipeline stage
-- [ ] Update `dashboard-ui/` paths to use the new data directory structure
+- [x] Decouple `dashboard-ui/` into independent `backend/` and `frontend/` services
+- [x] `backend/`: Flask 3.0 REST API serving pre-computed models, topic clusters, emotions, and search
+- [x] `frontend/`: React 19 SPA with Chakra UI 3, Recharts, Plotly, and Vite 8 dev proxy
+- [x] Update paths in `backend/app.py` using `Path(__file__).resolve().parent`
+- [x] Rename `sentiment_plots/` to `artifacts/` for general output storage
+- [x] Add root `Makefile` for full-stack commands (`make install`, `make dev`, `make backend`, `make frontend`)
 
-## Phase 4: Data & Utilities Cleanup
+## Phase 4: Data & Utilities Maintenance ✅
 
-- [ ] Ensure all intermediate `.csv`, `.npz`, `.joblib`, `.npy` files are gitignored
-- [ ] Add a `data/README.md` explaining data sources and how to regenerate
-- [ ] Organize `utilities/` — ensure consistent imports and clear module structure
-- [ ] Add `requirements.txt` at root for the full pipeline
+- [x] Keep hand-curated linguistic resources intact: `utilities/singlish_dictionary.json`, `utilities/slang_dictionary.csv`
+- [x] Maintain `utilities/pp_class.py` for canonical preprocessing
+- [x] Ensure `.gitkeep` for runtime folders (`backend/data/`, `backend/models/`, `artifacts/emotion_plots/`)
+- [x] Top-level `requirements.txt` and `backend/requirements.txt` synced
 
-## Phase 5: Documentation & Polish
+## Phase 5: Future Enhancements
 
-- [ ] Add architecture diagram to `README.md`
-- [ ] Add sample output screenshots to `docs/`
-- [ ] Add `CONTRIBUTING.md` if open to collaboration
-- [ ] Add LICENSE file
-- [ ] Final review pass: verify all paths, imports, and instructions work end-to-end
-
-## Phase 6: Improvements & Enhancements
-
-- [ ] Consider adding a CLI entry point (`python -m latent --stage 3`)
-- [ ] Add data validation checks between pipeline stages
-- [ ] Add unit tests for `utilities/pp_class.py`
-- [ ] Improve error handling in scrape scripts (rate limiting, retries)
-- [ ] Add progress bars (tqdm) to long-running pipeline stages
-- [ ] Consider Docker/devcontainer setup for reproducibility
+- [ ] Add CLI unified pipeline runner (`python -m pipeline.run_all`)
+- [ ] Add automated unit tests for `utilities/pp_class.py` and `preprocessing`
+- [ ] Add Docker / Devcontainer configuration for one-click setup
+- [ ] Implement incremental caching for BERT embeddings
 
 ---
 

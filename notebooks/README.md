@@ -1,54 +1,52 @@
 # Pipeline Notebooks
 
-This directory contains the NLP pipeline notebooks in two versions:
+This directory contains the NLP pipeline notebooks for Latent. Each notebook is **dual-environment compatible**, featuring auto-detection for both **local Jupyter** and **Google Colab** runtimes.
 
-## 📁 `local/` — Local Python (Jupyter)
+## 🚀 Running the Notebooks
 
-For users with **their own GPU** or sufficient CPU resources. These notebooks run in a standard Jupyter environment.
+### 💻 Local Execution (Own GPU / CPU)
 
-### Prerequisites
+For running locally with your own Python environment:
+
 ```bash
+# Install dependencies
 pip install -r requirements.txt
-# or
-uv sync
+python -m spacy download en_core_web_sm
+
+# Start Jupyter
+jupyter notebook notebooks/
 ```
 
-### Run
-```bash
-jupyter notebook notebooks/local/
-```
+When run locally, the setup cell automatically recognizes your environment, uses your local project directory as `PROJECT_ROOT`, and loads models and data accordingly.
 
-## ☁️ `colab/` — Google Colab (Free GPU)
+### ☁️ Google Colab Execution (Free Cloud GPU)
 
-For users who want to use **Google's free T4 GPU**. Each notebook includes:
-- An "Open in Colab" badge at the top
-- Auto-setup cells (Google Drive mount, dependency installation, repo clone)
-- GPU-optimized runtime settings
+Every notebook includes an **"Open In Colab"** badge at the top:
 
-### Run
-1. Open any notebook from `notebooks/colab/`
-2. Click the **"Open in Colab"** badge
-3. Set runtime type to **GPU** (`Runtime → Change runtime type → T4 GPU`)
-4. Run all cells sequentially
-
-> **Note**: Colab notebooks save data to Google Drive for persistence between sessions.
+1. Click the **"Open In Colab"** badge at the top of any notebook.
+2. Ensure GPU acceleration is enabled: `Runtime → Change runtime type → T4 GPU`.
+3. Run the first cell — it will automatically:
+   - Mount your Google Drive for data persistence.
+   - Clone or pull the Latent repository to `/content/Latent`.
+   - Install required packages and the spaCy language model.
+   - Configure working directories seamlessly.
 
 ---
 
-## Pipeline Stages
+## 📋 Pipeline Stages
 
 | Stage | Notebook | Description |
 |---|---|---|
-| 0 | `Stage_0_Introduction` | Project overview and data summary |
-| 1 | `Stage_1_Data_Collection` | Scraping + data cleaning |
-| 2 | `Stage_2_POS_NER_Tagging` | Part-of-Speech and Named Entity Recognition |
-| 3 | `Stage_3_Singlish_Normalisation` | Singlish expression standardization |
-| 4 | `Stage_4_Singlish_to_English` | Singlish → English conversion |
-| 5 | `Stage_5_Text_Normalisation` | Slang expansion, spelling, lemmatization |
-| 6 | `Stage_6_Vector_Space_Model` | TF-IDF, BM25, Sentence-BERT indices |
-| 7 | `Stage_7_Sentiment_Analysis` | 7-class emotion classification |
-| 8 | `Stage_8_Clustering` | K-Means topic clustering + t-SNE |
-| 9 | `Stage_9_Document_Search` | Search & recommendation engine |
-| A1 | `Appendix_1_Sentiment_Benchmark` | Sentiment model evaluation |
+| **0** | [`Stage_0_Introduction.ipynb`](file:///notebooks/Stage_0_Introduction.ipynb) | Project overview, architecture, and dataset summary |
+| **1** | [`Stage_1_Data_Collection.ipynb`](file:///notebooks/Stage_1_Data_Collection.ipynb) | Scraping ingestion, schema canonicalization, and deduplication |
+| **2** | [`Stage_2_POS_NER_Tagging.ipynb`](file:///notebooks/Stage_2_POS_NER_Tagging.ipynb) | Part-of-Speech tagging and Named Entity Recognition via spaCy |
+| **3** | [`Stage_3_Singlish_Normalisation.ipynb`](file:///notebooks/Stage_3_Singlish_Normalisation.ipynb) | Singlish particle & colloquial word normalization |
+| **4** | [`Stage_4_Singlish_to_English.ipynb`](file:///notebooks/Stage_4_Singlish_to_English.ipynb) | Lexicon-guided Singlish to standard English conversion |
+| **5** | [`Stage_5_Text_Normalisation.ipynb`](file:///notebooks/Stage_5_Text_Normalisation.ipynb) | Slang expansion, emoji translation, lemmatization, stop words |
+| **6** | [`Stage_6_Vector_Space_Model.ipynb`](file:///notebooks/Stage_6_Vector_Space_Model.ipynb) | TF-IDF, BM25Okapi, Sentence-BERT embeddings, Inverted Index |
+| **7** | [`Stage_7_Sentiment_Analysis.ipynb`](file:///notebooks/Stage_7_Sentiment_Analysis.ipynb) | RoBERTa 7-class emotion classification & sentiment metrics |
+| **8** | [`Stage_8_Clustering.ipynb`](file:///notebooks/Stage_8_Clustering.ipynb) | TruncatedSVD dimensionality reduction, K-Means clustering, t-SNE |
+| **9** | [`Stage_9_Document_Search.ipynb`](file:///notebooks/Stage_9_Document_Search.ipynb) | Multi-model document retrieval & recommendation engine |
+| **A1** | [`Appendix_1_Sentiment_Benchmark.ipynb`](file:///notebooks/Appendix_1_Sentiment_Benchmark.ipynb) | Zero-shot & fine-tuned sentiment benchmark comparisons |
 
-Run stages **in order** — each stage's output is the next stage's input.
+> **Note**: For production pipelines and batch execution, equivalent modular Python scripts are available in [`preprocessing/`](../preprocessing/), [`modelling/`](../modelling/), and [`search/`](../search/).
